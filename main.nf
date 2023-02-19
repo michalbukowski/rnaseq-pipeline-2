@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 
 process salmonIndex {
-    conda 'conda/rnaseq-salmon.yml' //'/store/miniconda3/envs/rnaseq-salmon'//'bioconda::salmon=1.9.0'
-    cpus 4
+    conda    'conda/rnaseq-salmon.yml'
     storeDir 'output/salmon'
+    cpus     4
     
     input:
         val  kmerLen
@@ -21,9 +21,9 @@ process salmonIndex {
 }
 
 process salmonQuant {
-    conda 'conda/rnaseq-salmon.yml' //'/store/miniconda3/envs/rnaseq-salmon'
-    cpus 4
+    conda    'conda/rnaseq-salmon.yml'
     storeDir 'output/salmon/quant'
+    cpus     4
     
     input:
         tuple val(strain), val(group), val(replica), path(index)
@@ -34,7 +34,7 @@ process salmonQuant {
                        checkIfExists: true)
         reads2 = file("reads/${strain}_${group}_${replica}_R2.fastq.gz",
                        checkIfExists: true)
-        outDir  = "${libType}/${strain}_${group}_${replica}"
+        outDir = "${libType}/${strain}_${group}_${replica}"
     
     output:
         tuple val(strain), val(group), val(libType), path(outDir)
@@ -44,7 +44,7 @@ process salmonQuant {
 }
 
 process salmonQuantMerge {
-    conda 'conda/rnaseq-salmon.yml'
+    conda    'conda/rnaseq-salmon.yml'
     storeDir 'output/salmon/quantmerge'
     
     input:
@@ -57,12 +57,12 @@ process salmonQuantMerge {
         colnames = []
         groups.each{ group ->
             sublist = []
-            count = 1
+            num     = 1
             files.each{ fpath ->
                 if (fpath.getName().indexOf(group) != -1) {
                     sublist  << fpath
-                    colnames << "${group}_${count}"
-                    count++
+                    colnames << "${group}_${num}"
+                    num++
                 }
             }
             fsorted.addAll(sublist.sort())
@@ -78,7 +78,7 @@ process salmonQuantMerge {
 }
 
 process calculateDGE {
-    conda 'conda/rnaseq-data.yml'
+    conda    'conda/rnaseq-data.yml'
     storeDir 'output/DGE'
     
     input:
@@ -86,7 +86,7 @@ process calculateDGE {
         each  alpha
     
     exec:
-        outFile  = "${libType}/${strain}_${groups.join('_')}_${libType}_${alpha}.tsv"
+        outFile = "${libType}/${strain}_${groups.join('_')}_${libType}_${alpha}.tsv"
     
     output:
         tuple val(exp), val(strain), val(libType), val(groups), path(outFile)
@@ -96,7 +96,7 @@ process calculateDGE {
 }
 
 workflow {
-    strains = params.experiments.collect{ exp -> exp['strain'] }.unique()
+    strains   = params.experiments.collect{ exp -> exp['strain'] }.unique()
     kmerLen   = 15
     salmonIdx = salmonIndex(kmerLen, strains)
     
@@ -123,7 +123,7 @@ workflow {
             expParams << [strain, group, "exp_${i}"]
         }
     }
-    metrics = Channel.fromList(params.metrics)
+    metrics   = Channel.fromList(params.metrics)
     expParams = Channel.fromList(expParams)
     .combine(salmonQnt, by: [0, 1])
     .groupTuple(by:[2,3])
@@ -132,7 +132,7 @@ workflow {
     }
     salmonQntM = salmonQuantMerge(expParams, metrics)
     
-    alpha = Channel.fromList(params.alpha)
+    alpha      = Channel.fromList(params.alpha)
     salmonQntM = salmonQntM.filter{ it[3] == 'NumReads' }
     calculateDGE(salmonQntM, alpha)
 }
