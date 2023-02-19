@@ -60,7 +60,7 @@ process salmonQuantMerge {
             count = 1
             files.each{ fpath ->
                 if (fpath.getName().indexOf(group) != -1) {
-                    sublist << fpath
+                    sublist  << fpath
                     colnames << "${group}_${count}"
                     count++
                 }
