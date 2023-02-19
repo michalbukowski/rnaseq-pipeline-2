@@ -30,9 +30,9 @@ process salmonQuant {
         each  libType
     
     exec:
-        reads_1 = file("reads/${strain}_${group}_${replica}_R1.fastq.gz",
+        reads1 = file("reads/${strain}_${group}_${replica}_R1.fastq.gz",
                        checkIfExists: true)
-        reads_2 = file("reads/${strain}_${group}_${replica}_R2.fastq.gz",
+        reads2 = file("reads/${strain}_${group}_${replica}_R2.fastq.gz",
                        checkIfExists: true)
         outDir  = "${libType}/${strain}_${group}_${replica}"
     
