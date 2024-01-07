@@ -19,7 +19,7 @@
    In conda/ directory YML files describe conda environments used by the pipeline.
    Miniconda/Anaconda installation is a prerequisite. The default environment that
    must be installed prior running the pipeplie is described in rnaseq-base.yml.
-   It contains nexflow 22.10.6 sra-tools 3.0.3. Run the following commands from
+   It contains nexflow 22.10.0 sra-tools 2.8.2. Run the following commands from
    the pipeline directory to recreate and activate the environment:
    
    conda env create -f conda/rnaseq-base.yml
