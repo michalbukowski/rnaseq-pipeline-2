@@ -1,0 +1,9 @@
+name: rnaseq-base
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::nextflow=23.10.*
+  - bioconda::sra-tools=2.8.*
+

@@ -1,0 +1,8 @@
+name: rnaseq-salmon
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::salmon=1.10.*
+

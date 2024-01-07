@@ -1,21 +1,30 @@
 ## Simple RNA-Seq pipeline (rnaseq-pipeline-2)
 Differential gene expression pipeline utilising Salmon and Bioconductor DESeq2 for Illumina RNA-Seq sequencing results.
 
+For detail see the following publication:
+
+Bukowski M, Kosecka-Strojek M, Wladyka B. _Disruption of saoB and saoC genes
+in Staphylococcus aureus alters transcription of genes involved in amino acid
+metabolism and virulence_. [awaiting publication]
+
+If you find the pipeline useful, please cite it.
+
 ### 1. Environment
 Miniconda/Anaconda installation is a prerequisite for running the pipeline. The pipeline was created and tested using the following conda environments and crucial packages:
 - rnaseq-base:
-  - sra-tools (3.0.3), only for test data acquisition
-  - nextflow (22.10.6)
+  - sra-tools (2.8.0), only for test data acquisition
+  - nextflow (22.10.0)
 - rnaseq-salmon:
-  - salmon (1.9.0)
+  - salmon (1.10.2)
 - rnaseq-data:
-  - python (3.11.0)
-  - r-base (4.2.2)
-  - bioconductor-deseq2 (1.38.0)
+  - python (3.12.0)
+  - r-base (4.3.2)
+  - bioconductor-deseq2 (1.42.0)
+  - bioconductor-apeglm (1.24.0)
 
-The first environment is required for obtaining the test data and running the pipeline. Remaining environemnts (see YML files in `conda/` directory) are installed by the pipeline. Run the following commands from the pipeline directory to recreate and activate the `rnaseq-base` environment:
+The first environment is required for obtaining the test data and running the pipeline. Remaining environemnts (see YML files in `envs/` directory) are installed by the pipeline. Run the following commands from the pipeline directory to recreate and activate the `rnaseq-base` environment:
 ```
-conda env create -f conda/rnaseq-base.yml
+conda env create -f envs/rnaseq-base.yml
 conda activate rnaseq-base
 ```
 
@@ -31,7 +40,7 @@ Names of the FASTQ files with reads in [NCBI BioProject](https://www.ncbi.nlm.ni
 The pipeline utilises the following directory structure:
 ```
 your_pipeline_location/
-├── conda/
+├── envs/
 │   ├── rnaseq-base.yml
 │   ├── rnaseq-data.yml
 │   └── rnaseq-salmon.yml

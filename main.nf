@@ -1,5 +1,10 @@
 #!/usr/bin/env nextflow
-/* Created by Michal Bukowski (michal.bukowski@tuta.io) under GPL-3.0 license
+/* Created by Michal Bukowski (michal.bukowski@tuta.io, m.bukowski@uj.edu.pl)
+   under GPL-3.0 license. For detail see the following publication:
+   
+   Bukowski M, Kosecka-Strojek M, Wladyka B. Disruption of saoB and saoC genes
+   in Staphylococcus aureus alters transcription of genes involved in amino acid
+   metabolism and virulence. [awaiting publication]
    
    Differential gene expression pipeline utilising Salmon and Bioconductor DESeq2
    for paired-end Illumina RNA-Seq squencing results.
@@ -30,8 +35,8 @@
 */
 
 process salmonIndex {
-    conda    'conda/rnaseq-salmon.yml'
-    storeDir 'output/salmon'
+    conda    'envs/rnaseq-salmon.yml'
+    publishDir 'output/salmon', mode: 'link'
     cpus     4
     
     input:
@@ -50,8 +55,8 @@ process salmonIndex {
 }
 
 process salmonQuant {
-    conda    'conda/rnaseq-salmon.yml'
-    storeDir 'output/salmon/quant'
+    conda    'envs/rnaseq-salmon.yml'
+    publishDir 'output/salmon/quant', mode: 'link'
     cpus     4
     
     input:
@@ -73,8 +78,8 @@ process salmonQuant {
 }
 
 process salmonQuantMerge {
-    conda    'conda/rnaseq-salmon.yml'
-    storeDir 'output/salmon/quantmerge'
+    conda    'envs/rnaseq-salmon.yml'
+    publishDir 'output/salmon/quantmerge', mode: 'link'
     
     input:
         tuple val(exp), val(strain), val(libType), val(groups), path(files)
@@ -107,8 +112,8 @@ process salmonQuantMerge {
 }
 
 process calculateDGE {
-    conda    'conda/rnaseq-data.yml'
-    storeDir 'output/DGE'
+    conda    'envs/rnaseq-data.yml'
+    publishDir 'output/DGE', mode: 'link'
     
     input:
         tuple val(exp), val(strain), val(libType), val(metric), val(groups), path(file)

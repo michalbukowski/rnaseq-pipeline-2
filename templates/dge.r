@@ -1,5 +1,10 @@
 #!/usr/bin/env Rscript
-# Created by Michal Bukowski (michal.bukowski@tuta.io) under GPL-3.0 license
+# Created by Michal Bukowski (michal.bukowski@tuta.io, m.bukowski@uj.edu.pl)
+# under GPL-3.0 license. For detail see the following publication:
+#
+# Bukowski M, Kosecka-Strojek M, Wladyka B. Disruption of saoB and saoC genes
+# in Staphylococcus aureus alters transcription of genes involved in amino acid
+# metabolism and virulence. [awaiting publication]
 
 # Runs DESeq2 DGE analysis for a given samlon quantmerge output and specified params
 
